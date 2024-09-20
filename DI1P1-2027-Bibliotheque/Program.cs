@@ -50,6 +50,14 @@ namespace DI1P1_2027_Bibliotheque
                 {
 
                 }
+                else if (eventstring == "9")
+                {
+                    libraryEntity = screensEntity.ShowAddStatusMenu(libraryEntity);
+                }
+                else if (eventstring == "10")
+                {
+                    screensEntity.ShowListStatusMenu(libraryEntity);
+                }
 
                 if (eventstring != "exit")
                 {

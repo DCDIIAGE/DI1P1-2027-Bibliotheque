@@ -21,6 +21,8 @@ namespace DI1P1_2027_Bibliotheque.Entities
             Console.WriteLine("6- Show users");
             Console.WriteLine("7- Show authors");
             Console.WriteLine("8- Show borrows");
+            Console.WriteLine("9- Add status");
+            Console.WriteLine("10- Show status");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("\nwrite exit to exit");
             Console.ForegroundColor = ConsoleColor.Green;
@@ -87,7 +89,7 @@ namespace DI1P1_2027_Bibliotheque.Entities
         {
             UserEntity user = new();
 
-            user.SetId((library.GetAllAuthors().LastOrDefault() ?? new()).GetId() + 1);
+            user.SetId((library.GetAllUsers().LastOrDefault() ?? new()).GetId() + 1);
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("User name");
@@ -111,7 +113,7 @@ namespace DI1P1_2027_Bibliotheque.Entities
         {
             AuthorEntity author = new();
             
-            author.SetId((library.GetAllAuthors().LastOrDefault() ?? new()).GetId() + 1);
+            author.SetId((library.GetAllStatuses().LastOrDefault() ?? new()).GetId() + 1);
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Author name");
@@ -129,6 +131,32 @@ namespace DI1P1_2027_Bibliotheque.Entities
             author.SetDescription(Console.ReadLine() ?? "No description");
 
             library.AddAuthor(author);
+            return library;
+        }
+        public LibraryEntity ShowAddStatusMenu(LibraryEntity library)
+        {
+            StatusEntity status = new();
+
+            status.SetId((library.GetAllStatuses().LastOrDefault() ?? new()).GetId() + 1);
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Status name");
+            Console.ForegroundColor = ConsoleColor.Green;
+            status.SetName(Console.ReadLine() ?? "No name");
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Status maxbook");
+            Console.ForegroundColor = ConsoleColor.Green;
+            
+            string input = Console.ReadLine() ?? "1";
+
+            if (!uint.TryParse(input, out uint maxbook))
+            {
+                maxbook = 1;
+            }
+            status.SetMaxBooks(maxbook);
+
+            library.AddStatus(status);
             return library;
         }
         public void ShowListBookMenu(LibraryEntity library)
@@ -414,6 +442,121 @@ namespace DI1P1_2027_Bibliotheque.Entities
             {
                 Console.ForegroundColor = ConsoleColor.DarkMagenta;
                 Console.WriteLine("No author found");
+            }
+        }
+        public void ShowListStatusMenu(LibraryEntity library)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Chose an option");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("1- Show All");
+            Console.WriteLine("2- Show by status name");
+            Console.WriteLine("3- Show where max book is greater than");
+            Console.WriteLine("4- Show where max book is less than");
+            Console.WriteLine("5- Show by maxbook");
+            Console.WriteLine("6- Show by ID");
+            Console.ForegroundColor = ConsoleColor.Green;
+
+            string input = Console.ReadLine() ?? "1";
+
+            if (!uint.TryParse(input, out uint num))
+            {
+                num = 1;
+            }
+
+            List<StatusEntity> statuses = [];
+            if (num == 1)
+            {
+                statuses = library.GetAllStatuses();
+            }
+            else if (num == 2)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Status name");
+                Console.ForegroundColor = ConsoleColor.Green;
+                input = Console.ReadLine() ?? "";
+                statuses = library.GetAllStatusesByName(input);
+            }
+            else if (num == 3)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Status Maxbook");
+                Console.ForegroundColor = ConsoleColor.Green;
+                input = Console.ReadLine() ?? "1";
+                if (!uint.TryParse(input, out uint maxbook))
+                {
+                    num = 1;
+                }
+                statuses = library.GetAllStatusesWhereMaxBookIsGreaterThan(maxbook);
+            }
+            else if (num == 4)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Status Maxbook");
+                Console.ForegroundColor = ConsoleColor.Green;
+                input = Console.ReadLine() ?? "1";
+                if (!uint.TryParse(input, out uint maxbook))
+                {
+                    num = 1;
+                }
+                statuses = library.GetAllStatusesWhereMaxBookIsLessThan(maxbook);
+            }
+            else if (num == 5)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Status Maxbook");
+                Console.ForegroundColor = ConsoleColor.Green;
+                input = Console.ReadLine() ?? "1";
+                if (!uint.TryParse(input, out uint maxbook))
+                {
+                    num = 1;
+                }
+                statuses = library.GetAllStatusesByMaxBook(maxbook);
+            }
+            else if (num == 6)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("ID");
+                Console.ForegroundColor = ConsoleColor.Green;
+
+                input = Console.ReadLine() ?? "1";
+
+                if (!uint.TryParse(input, out num))
+                {
+                    num = 1;
+                }
+                StatusEntity havestatus = library.GetStatusById(num);
+                if (havestatus != null && havestatus.GetId() != 0)
+                {
+                    statuses.Add(havestatus);
+                }
+            }
+
+            if (statuses.Count > 0)
+            {
+                statuses.ForEach(status =>
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write("\n\nID:\t");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(status.GetId());
+
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write("name:\t");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(status.GetName());
+
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write("Maxbook:\t");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(status.GetMaxBooks());
+
+                });
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("No status found");
             }
         }
     }

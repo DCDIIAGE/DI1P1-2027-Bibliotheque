@@ -12,7 +12,7 @@ namespace DI1P1_2027_Bibliotheque.Entities
         private readonly List<BookEntity> books = [];
         private readonly List<BorrowEntity> borrows = [];
         private readonly List<AuthorEntity> authors = [];
-        private readonly List<StatusEntity> status = [];
+        private readonly List<StatusEntity> statuses = [];
         private readonly List<UserEntity> users = [];
 
         public void SetBook(BookEntity book)
@@ -143,6 +143,30 @@ namespace DI1P1_2027_Bibliotheque.Entities
         {
             return this.users.FirstOrDefault(user => user.GetId() == id) ?? new();
         }
+        public List<StatusEntity> GetAllStatuses()
+        {
+            return this.statuses;
+        }
+        public List<StatusEntity> GetAllStatusesByName(string statusname)
+        {
+            return this.statuses.Where(status =>  status.GetName() == statusname).ToList();
+        }
+        public List<StatusEntity> GetAllStatusesByMaxBook(uint maxbook)
+        {
+            return this.statuses.Where(status => status.GetMaxBooks() == maxbook).ToList();
+        }
+        public List<StatusEntity> GetAllStatusesWhereMaxBookIsGreaterThan(uint maxbook)
+        {
+            return this.statuses.Where(status => status.GetMaxBooks() > maxbook).ToList();
+        }
+        public List<StatusEntity> GetAllStatusesWhereMaxBookIsLessThan(uint minbook)
+        {
+            return this.statuses.Where(status => status.GetMaxBooks() < minbook).ToList();
+        }
+        public StatusEntity GetStatusById(uint id)
+        {
+            return this.statuses.FirstOrDefault(status => status.GetId() == id) ?? new();
+        }
         public void AddBook(BookEntity book)
         {
             this.books.Add(book);
@@ -159,7 +183,10 @@ namespace DI1P1_2027_Bibliotheque.Entities
         {
             this.users.Add(user);
         }
-        
+        public void AddStatus(StatusEntity status)
+        {
+            this.statuses.Add(status);
+        }
         public void RemoveBookByIsbn(uint isbn)
         {
 
