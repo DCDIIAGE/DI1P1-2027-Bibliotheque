@@ -103,8 +103,28 @@ namespace DI1P1_2027_Bibliotheque.Entities
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("User status");
-            Console.ForegroundColor = ConsoleColor.Green;
-            user.SetStatus(new());
+            Console.ForegroundColor = ConsoleColor.White;
+            List<StatusEntity> statuses = library.GetAllStatuses();
+            if (statuses.Count < 1)
+            {
+                Console.WriteLine("Status no found");
+                user.SetStatus(new());
+            }
+            else
+            {
+                statuses.ForEach(status =>
+                {
+                    Console.WriteLine(status.GetId() + "- " + status.GetName() + " maxbook:" + status.GetMaxBooks());
+                });
+                Console.ForegroundColor = ConsoleColor.Green;
+                string input = Console.ReadLine() ?? "1";
+
+                if (!uint.TryParse(input, out uint id))
+                {
+                    id = 1;
+                }
+                user.SetStatus(library.GetStatusById(id));
+            }
 
             library.AddUser(user);
             return library;
@@ -301,7 +321,7 @@ namespace DI1P1_2027_Bibliotheque.Entities
             else if (num == 4)
             {
                 Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                Console.WriteLine("Not implemented");
+                Console.WriteLine("Not implemented"); // TODO implement status
                 Console.ForegroundColor = ConsoleColor.Green;
             }
             else if (num == 5)
