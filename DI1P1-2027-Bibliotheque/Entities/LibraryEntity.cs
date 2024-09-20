@@ -109,7 +109,7 @@ namespace DI1P1_2027_Bibliotheque.Entities
         {
             return this.borrows.Find(b => b.GetId() == id) ?? new BorrowEntity();
         }
-        public List<AuthorEntity> GetAllAuthor()
+        public List<AuthorEntity> GetAllAuthors()
         {
             return this.authors;
         }
@@ -125,6 +125,20 @@ namespace DI1P1_2027_Bibliotheque.Entities
         public void AddAuthor(AuthorEntity author)
         {
             this.authors.Add(author);
+        }
+        
+        public List<AuthorEntity> GetAllAuthorsByName(string authorname)
+        {
+            return this.authors.Where(author => author.GetAuthorName() == authorname).ToList();
+        }
+
+        public List<AuthorEntity> GetAllAuthorsByFirstname(string authorfirstname)
+        {
+            return this.authors.Where(author => author.GetAuthorFirstname() == authorfirstname).ToList();
+        }
+        public AuthorEntity GetAuthorById(uint id)
+        {
+            return this.authors.FirstOrDefault(author => author.GetId() == id) ?? new();
         }
         public void RemoveBookByIsbn(uint isbn)
         {
@@ -206,6 +220,11 @@ namespace DI1P1_2027_Bibliotheque.Entities
         public void RemoveAllBorrowsByUserStatusName(string userstatusname)
         {
 
+        }
+
+        public bool IsIsbnExist(uint isbn)
+        {
+            return this.books.Any(book => book.GetIsbn() == isbn);
         }
     }
 }

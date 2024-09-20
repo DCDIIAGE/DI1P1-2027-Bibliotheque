@@ -44,7 +44,7 @@ namespace DI1P1_2027_Bibliotheque
                 }
                 else if (eventstring == "7")
                 {
-
+                    screensEntity.ShowListAuthorsMenu(libraryEntity);
                 }
                 else if (eventstring == "8")
                 {

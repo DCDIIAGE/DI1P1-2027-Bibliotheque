@@ -55,7 +55,7 @@ namespace DI1P1_2027_Bibliotheque.Entities
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Chose author");
             Console.ForegroundColor = ConsoleColor.White;
-            library.GetAllAuthor().ForEach(author =>
+            library.GetAllAuthors().ForEach(author =>
             {
                 Console.WriteLine(author.GetId()+"- "+author.GetAuthorName()+" "+author.GetAuthorFirstname());
             });
@@ -68,9 +68,18 @@ namespace DI1P1_2027_Bibliotheque.Entities
             {
                 isbn = 1;
             }
-            book.SetAuthor(library.GetAllAuthor().FirstOrDefault(author => author.GetId() == isbn) ?? new());
+            book.SetAuthor(library.GetAllAuthors().FirstOrDefault(author => author.GetId() == isbn) ?? new());
 
-            library.AddBook(book);
+            if(library.IsIsbnExist(book.GetIsbn()))
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine($"{book.GetIsbn()} isbn is already given to other book");
+                Console.ForegroundColor = ConsoleColor.Green;
+            }
+            else
+            {
+                library.AddBook(book);
+            }
             return library;
         }
 
@@ -78,7 +87,7 @@ namespace DI1P1_2027_Bibliotheque.Entities
         {
             AuthorEntity author = new();
             
-            author.SetId((library.GetAllAuthor().LastOrDefault() ?? new()).GetId() + 1);
+            author.SetId((library.GetAllAuthors().LastOrDefault() ?? new()).GetId() + 1);
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Author name");
@@ -127,7 +136,7 @@ namespace DI1P1_2027_Bibliotheque.Entities
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Author name");
                 Console.ForegroundColor = ConsoleColor.White;
-                library.GetAllAuthor().ForEach(author =>
+                library.GetAllAuthors().ForEach(author =>
                 {
                     Console.WriteLine(author.GetId() + "- " + author.GetAuthorName() + " " + author.GetAuthorFirstname());
                 });
@@ -160,7 +169,7 @@ namespace DI1P1_2027_Bibliotheque.Entities
                     num = 1;
                 }
                 BookEntity havebook = library.GetBookByIsbn(num);
-                if (havebook != null || havebook.GetIsbn() != 0)
+                if (havebook != null && havebook.GetIsbn() != 0)
                 {
                     books.Add(havebook);
                 }
@@ -189,6 +198,96 @@ namespace DI1P1_2027_Bibliotheque.Entities
                     Console.Write("Author:\t");
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine("id:"+book.GetAuthor().GetId()+"\tname:"+book.GetAuthor().GetAuthorName()+"\tfirstname:"+book.GetAuthor().GetAuthorFirstname());
+
+                });
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("No book found");
+            }
+        }
+
+        public void ShowListAuthorsMenu(LibraryEntity library)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Chose an option");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("1- Show All");
+            Console.WriteLine("2- Show by author name");
+            Console.WriteLine("3- Show by author firstname");
+            Console.WriteLine("4- Show by ID");
+            Console.ForegroundColor = ConsoleColor.Green;
+
+            string input = Console.ReadLine() ?? "1";
+
+            if (!uint.TryParse(input, out uint num))
+            {
+                num = 1;
+            }
+
+            List<AuthorEntity> authors = [];
+            if (num == 1)
+            {
+                authors = library.GetAllAuthors();
+            }
+            else if (num == 2)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Author name");
+                Console.ForegroundColor = ConsoleColor.Green;
+                input = Console.ReadLine() ?? "";
+                authors = library.GetAllAuthorsByName(input);
+            }
+            else if (num == 3)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Author firstname");
+                Console.ForegroundColor = ConsoleColor.Green;
+                authors = library.GetAllAuthorsByFirstname(Console.ReadLine() ?? "01-01-2000");
+            }
+            else if (num == 4)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("ID");
+                Console.ForegroundColor = ConsoleColor.Green;
+
+                input = Console.ReadLine() ?? "1";
+
+                if (!uint.TryParse(input, out num))
+                {
+                    num = 1;
+                }
+                AuthorEntity haveauthor = library.GetAuthorById(num);
+                if (haveauthor != null && haveauthor.GetId() != 0)
+                {
+                    authors.Add(haveauthor);
+                }
+            }
+
+            if (authors.Count > 0)
+            {
+                authors.ForEach(author =>
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write("\n\nID:\t");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(author.GetId());
+
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write("name:\t");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(author.GetAuthorName());
+
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write("Firstname:\t");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(author.GetAuthorFirstname());
+
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write("Description:\t");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(author.GetDescription());
 
                 });
             }
