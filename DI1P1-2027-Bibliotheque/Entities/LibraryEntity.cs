@@ -113,20 +113,6 @@ namespace DI1P1_2027_Bibliotheque.Entities
         {
             return this.authors;
         }
-
-        public void AddBook(BookEntity book)
-        {
-            this.books.Add(book);
-        }
-        public void AddBorrow(BorrowEntity borrow)
-        {
-            this.borrows.Add(borrow);
-        }
-        public void AddAuthor(AuthorEntity author)
-        {
-            this.authors.Add(author);
-        }
-        
         public List<AuthorEntity> GetAllAuthorsByName(string authorname)
         {
             return this.authors.Where(author => author.GetAuthorName() == authorname).ToList();
@@ -140,6 +126,40 @@ namespace DI1P1_2027_Bibliotheque.Entities
         {
             return this.authors.FirstOrDefault(author => author.GetId() == id) ?? new();
         }
+
+        public List<UserEntity> GetAllUsers()
+        {
+            return this.users;
+        }
+        public List<UserEntity> GetAllUsersByName(string username)
+        {
+            return this.users.Where(user => user.GetName() == username).ToList();
+        }
+        public List<UserEntity> GetAllUsersByFirstname(string userfirstname)
+        {
+            return this.users.Where(user => user.GetFirstname() == userfirstname).ToList();
+        }
+        public UserEntity GetUserById(uint id)
+        {
+            return this.users.FirstOrDefault(user => user.GetId() == id) ?? new();
+        }
+        public void AddBook(BookEntity book)
+        {
+            this.books.Add(book);
+        }
+        public void AddBorrow(BorrowEntity borrow)
+        {
+            this.borrows.Add(borrow);
+        }
+        public void AddAuthor(AuthorEntity author)
+        {
+            this.authors.Add(author);
+        }
+        public void AddUser(UserEntity user)
+        {
+            this.users.Add(user);
+        }
+        
         public void RemoveBookByIsbn(uint isbn)
         {
 

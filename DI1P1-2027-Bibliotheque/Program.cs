@@ -24,7 +24,7 @@ namespace DI1P1_2027_Bibliotheque
                 }
                 else if (eventstring == "2")
                 {
-
+                    libraryEntity = screensEntity.ShowAddUserMenu(libraryEntity);
                 }
                 else if (eventstring == "3")
                 {
@@ -40,7 +40,7 @@ namespace DI1P1_2027_Bibliotheque
                 }
                 else if (eventstring == "6")
                 {
-
+                    screensEntity.ShowListUsersMenu(libraryEntity);
                 }
                 else if (eventstring == "7")
                 {

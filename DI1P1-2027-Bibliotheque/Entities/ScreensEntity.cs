@@ -83,6 +83,30 @@ namespace DI1P1_2027_Bibliotheque.Entities
             return library;
         }
 
+        public LibraryEntity ShowAddUserMenu(LibraryEntity library)
+        {
+            UserEntity user = new();
+
+            user.SetId((library.GetAllAuthors().LastOrDefault() ?? new()).GetId() + 1);
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("User name");
+            Console.ForegroundColor = ConsoleColor.Green;
+            user.SetName(Console.ReadLine() ?? "No name");
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("User firstname");
+            Console.ForegroundColor = ConsoleColor.Green;
+            user.SetFirstname(Console.ReadLine() ?? "No firstname");
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("User status");
+            Console.ForegroundColor = ConsoleColor.Green;
+            user.SetStatus(new());
+
+            library.AddUser(user);
+            return library;
+        }
         public LibraryEntity ShowAddAuthorMenu(LibraryEntity library)
         {
             AuthorEntity author = new();
@@ -97,7 +121,7 @@ namespace DI1P1_2027_Bibliotheque.Entities
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Author firstname");
             Console.ForegroundColor = ConsoleColor.Green;
-            author.SetAuthorFirstName(Console.ReadLine() ?? "No firstname");
+            author.SetAuthorFirstname(Console.ReadLine() ?? "No firstname");
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Author description");
@@ -207,7 +231,102 @@ namespace DI1P1_2027_Bibliotheque.Entities
                 Console.WriteLine("No book found");
             }
         }
+        public void ShowListUsersMenu(LibraryEntity library)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Chose an option");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("1- Show All");
+            Console.WriteLine("2- Show by user name");
+            Console.WriteLine("3- Show by user firstname");
+            Console.WriteLine("4- Show by status");
+            Console.WriteLine("5- Show by ID");
+            Console.ForegroundColor = ConsoleColor.Green;
 
+            string input = Console.ReadLine() ?? "1";
+
+            if (!uint.TryParse(input, out uint num))
+            {
+                num = 1;
+            }
+
+            List<UserEntity> users = [];
+            if (num == 1)
+            {
+                users = library.GetAllUsers();
+            }
+            else if (num == 2)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("User name");
+                Console.ForegroundColor = ConsoleColor.Green;
+                input = Console.ReadLine() ?? "";
+                users = library.GetAllUsersByName(input);
+            }
+            else if (num == 3)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("User firstname");
+                Console.ForegroundColor = ConsoleColor.Green;
+                users = library.GetAllUsersByFirstname(Console.ReadLine() ?? "");
+            }
+            else if (num == 4)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("Not implemented");
+                Console.ForegroundColor = ConsoleColor.Green;
+            }
+            else if (num == 5)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("ID");
+                Console.ForegroundColor = ConsoleColor.Green;
+
+                input = Console.ReadLine() ?? "1";
+
+                if (!uint.TryParse(input, out num))
+                {
+                    num = 1;
+                }
+                UserEntity haveuser = library.GetUserById(num);
+                if (haveuser != null && haveuser.GetId() != 0)
+                {
+                    users.Add(haveuser);
+                }
+            }
+
+            if (users.Count > 0)
+            {
+                users.ForEach(user =>
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write("\n\nID:\t");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(user.GetId());
+
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write("name:\t");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(user.GetName());
+
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write("Firstname:\t");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(user.GetFirstname());
+
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write("Status:\t");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine("id:"+user.GetStatus().GetId()+"\tname:"+user.GetStatus().GetName()+"\tmax-book:"+user.GetStatus().GetMaxBooks());
+
+                });
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("No user found");
+            }
+        }
         public void ShowListAuthorsMenu(LibraryEntity library)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -294,7 +413,7 @@ namespace DI1P1_2027_Bibliotheque.Entities
             else
             {
                 Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                Console.WriteLine("No book found");
+                Console.WriteLine("No author found");
             }
         }
     }

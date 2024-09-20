@@ -22,7 +22,7 @@ namespace DI1P1_2027_Bibliotheque.Entities
         {
             return this.name;
         }
-        public void SetAuthorFirstName(string firstName)
+        public void SetAuthorFirstname(string firstName)
         {
             this.firstname = firstName;
         }
