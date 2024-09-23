@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -177,6 +178,44 @@ namespace DI1P1_2027_Bibliotheque.Entities
             status.SetMaxBooks(maxbook);
 
             library.AddStatus(status);
+            return library;
+        }
+
+        public LibraryEntity ShowAddBorrowMenu(LibraryEntity library)
+        {
+            BorrowEntity borrow = new();
+
+            borrow.SetId((library.GetAllStatuses().LastOrDefault() ?? new()).GetId() + 1);
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Book ISBN");
+            Console.ForegroundColor = ConsoleColor.Green;
+            string input = Console.ReadLine() ?? "1";
+            if (!uint.TryParse(input, out uint isbn))
+            {
+                isbn = 1;
+            }
+            borrow.SetBook(library.GetBookByIsbn(isbn));
+            if(borrow.GetBook() == null || borrow.GetBook().GetIsbn() == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("Book not found");
+                return library;
+            }
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("User ID");
+            Console.ForegroundColor = ConsoleColor.Green;
+
+            input = Console.ReadLine() ?? "1";
+
+            if (!uint.TryParse(input, out uint userid))
+            {
+                userid = 1;
+            }
+            borrow.SetUser(library.GetUserById(userid));
+
+            library.AddBorrow(borrow);
             return library;
         }
         public void ShowListBookMenu(LibraryEntity library)

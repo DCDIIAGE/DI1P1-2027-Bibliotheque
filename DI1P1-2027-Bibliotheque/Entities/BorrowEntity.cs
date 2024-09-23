@@ -11,6 +11,7 @@ namespace DI1P1_2027_Bibliotheque.Entities
         private uint id = 0;
         private BookEntity book = new BookEntity();
         private UserEntity user = new UserEntity();
+        private DateTime date = DateTime.Now;
 
         public void SetId(uint id)
         {
