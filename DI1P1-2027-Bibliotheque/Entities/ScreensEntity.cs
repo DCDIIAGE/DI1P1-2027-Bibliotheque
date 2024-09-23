@@ -189,6 +189,11 @@ namespace DI1P1_2027_Bibliotheque.Entities
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Book ISBN");
+            Console.ForegroundColor = ConsoleColor.White;
+            library.GetAllBooks().ForEach(book =>
+            {
+                Console.WriteLine(book.GetIsbn()+"- "+book.GetTitle()+" Auteur: "+book.GetAuthor().GetAuthorName()+" "+book.GetAuthor().GetAuthorFirstname());
+            });
             Console.ForegroundColor = ConsoleColor.Green;
             string input = Console.ReadLine() ?? "1";
             if (!uint.TryParse(input, out uint isbn))
@@ -214,6 +219,12 @@ namespace DI1P1_2027_Bibliotheque.Entities
                 userid = 1;
             }
             borrow.SetUser(library.GetUserById(userid));
+            if(borrow.GetUser() == null || borrow.GetUser().GetId() == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("User not found");
+                return library;
+            }
 
             library.AddBorrow(borrow);
             return library;

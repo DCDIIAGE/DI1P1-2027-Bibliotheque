@@ -32,7 +32,7 @@ namespace DI1P1_2027_Bibliotheque
                 }
                 else if (eventstring == "4")
                 {
-
+                    libraryEntity = screensEntity.ShowAddBorrowMenu(libraryEntity);
                 }
                 else if (eventstring == "5")
                 {
