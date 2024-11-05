@@ -6,7 +6,10 @@
         public uint id { get; set; } = 0;
         public string name { get; set; } = "No name";
         public string firstname { get; set; } = "No firstname";
-        public IStatusModel status { get; set; } = new Status();
+        public uint statusId { get; set; }
+        public Status statusCast { get; set; } = new Status();
+        public string password {  get; set; } = string.Empty;
+        IStatusModel IUserModel.status { get => statusCast; set => statusCast = (Status)value; }
 
         public void SetId(uint id)
         {
@@ -38,11 +41,11 @@
 
         public void SetStatus(IStatusModel status)
         {
-            this.status = status;
+            this.statusCast = (Status)status;
         }
         public IStatusModel GetStatus()
         {
-            return this.status;
+            return this.statusCast;
         }
     }
 }

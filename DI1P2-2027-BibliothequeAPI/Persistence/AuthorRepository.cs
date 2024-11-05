@@ -30,7 +30,16 @@
         }
         public void AddAuthor(Author author)
         {
-            context.Authors.Add(author);
+            try
+            {
+                context.Authors.Add(author);
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
         }
     }
 }

@@ -4,9 +4,14 @@
     public class Borrow:IBorrowModel
     {
         public uint id { get; set; } = 0;
-        public IBookModel book { get; set; } = new Book();
-        public IUserModel user { get; set; } = new User();
+        public uint bookIsbn { get; set; }
+        public Book bookCast { get; set; } = new Book();
+        public uint userId { get; set; }
+        public User userCast { get; set; } = new User();
         public DateTime date { get; set; } = DateTime.Now;
+
+        IBookModel IBorrowModel.book { get => bookCast; set => bookCast = (Book)value; }
+        IUserModel IBorrowModel.user { get => userCast; set => userCast = (User)value; }
 
         public void SetId(uint id)
         {
@@ -18,19 +23,19 @@
         }
         public void SetBook(IBookModel book)
         {
-            this.book = book;
+            this.bookCast = (Book)book;
         }
         public IBookModel GetBook()
         {
-            return this.book;
+            return this.bookCast;
         }
         public void SetUser(IUserModel user)
         {
-            this.user = user;
+            this.userCast = (User)user;
         }
         public IUserModel GetUser()
         {
-            return this.user;
+            return this.userCast;
         }
     }
 }

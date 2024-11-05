@@ -1,7 +1,11 @@
 using DI1P2_2027_BibliothequeAPI.Persistence;
 using DI1P2_2027_BibliothequeAPI.Persistence.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<BibliothequeDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
 

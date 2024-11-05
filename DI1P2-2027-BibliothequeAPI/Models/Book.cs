@@ -6,39 +6,24 @@
         public uint isbn { get; set; } = 0;
         public string title { get; set; } = "No title";
         public string publishdate { get; set; } = "No publish date";
-        public IAuthorModel author { get; set; } = new Author();
+        public uint authorId { get; set; }
+        public Author authorCast { get; set; } = new Author();
+        IAuthorModel IBookModel.author
+        {
+            get => authorCast;
+            set => authorCast = (Author)value;
+        }
 
-        public void SetIsbn(uint isbn)
-        {
-            this.isbn = isbn;
-        }
-        public uint GetIsbn()
-        {
-            return this.isbn;
-        }
-        public void SetTitle(string title)
-        {
-            this.title = title;
-        }
-        public string GetTitle()
-        {
-            return this.title;
-        }
-        public void SetPublishDate(string publishdate)
-        {
-            this.publishdate = publishdate;
-        }
-        public string GetPublishDate()
-        {
-            return this.publishdate;
-        }
-        public void SetAuthor(IAuthorModel author)
-        {
-            this.author = author;
-        }
-        public IAuthorModel GetAuthor()
-        {
-            return this.author;
-        }
+        public void SetIsbn(uint isbn) => this.isbn = isbn;
+        public uint GetIsbn() => this.isbn;
+
+        public void SetTitle(string title) => this.title = title;
+        public string GetTitle() => this.title;
+
+        public void SetPublishDate(string publishdate) => this.publishdate = publishdate;
+        public string GetPublishDate() => this.publishdate;
+
+        public void SetAuthor(IAuthorModel author) => authorCast = (Author)author;
+        public IAuthorModel GetAuthor() => authorCast;
     }
 }
