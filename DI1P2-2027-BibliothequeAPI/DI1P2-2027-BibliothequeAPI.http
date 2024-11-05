@@ -1,0 +1,6 @@
+@DI1P2_2027_BibliothequeAPI_HostAddress = http://localhost:5023
+
+GET {{DI1P2_2027_BibliothequeAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
