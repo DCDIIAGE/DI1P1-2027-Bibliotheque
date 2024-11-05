@@ -7,7 +7,7 @@
     {
         public DbSet<Status> Status { get; set; } = null;
         public DbSet<User> Users { get; set; } = null;
-        public DbSet<Author> Author { get; set; } = null;
+        public DbSet<Author> Authors { get; set; } = null;
         public DbSet<Book> Books { get; set; } = null;
         public DbSet<Borrow> Borrows { get; set; } = null;
 
