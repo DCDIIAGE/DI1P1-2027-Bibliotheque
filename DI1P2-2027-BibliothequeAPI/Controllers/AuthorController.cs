@@ -45,5 +45,20 @@
             authorRepository.SetAuthor(author);
             return Ok();
         }
+        [HttpGet("byName")]
+        public IActionResult getAuthorByName(string name)
+        {
+            return Ok(authorRepository.GetAllAuthorsByName(name));
+        }
+        [HttpGet("byFirstname")]
+        public IActionResult getAuthorByFirstame(string firstname)
+        {
+            return Ok(authorRepository.GetAllAuthorsByFirstname(firstname));
+        }
+        [HttpGet("byId")]
+        public IActionResult getAuthorById(uint id)
+        {
+            return Ok(authorRepository.GetAuthorById(id));
+        }
     }
 }

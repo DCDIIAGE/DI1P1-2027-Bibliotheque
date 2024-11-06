@@ -6,9 +6,14 @@
     {
         public void SetAuthor(Author author)
         {
-            if (context.Authors.AsQueryable().ToList().FindIndex(b => b.GetId() == author.GetId()) > -1)
+            var existingAuthor = context.Authors.FirstOrDefault(b => b.id == author.id);
+            if (existingAuthor != null)
             {
-                context.Authors.AsQueryable().ToList()[context.Borrows.AsQueryable().ToList().FindIndex(b => b.GetId() == author.GetId())] = author;
+                existingAuthor.name = author.name;
+                existingAuthor.firstname = author.firstname;
+                existingAuthor.description = author.description;
+
+                context.SaveChanges();
             }
         }
         public ICollection<Author> GetAllAuthors()
@@ -17,12 +22,12 @@
         }
         public ICollection<Author> GetAllAuthorsByName(string authorname)
         {
-            return context.Authors.Where(author => author.GetAuthorName() == authorname).ToList();
+            return context.Authors.AsQueryable().ToList().Where(author => author.GetAuthorName() == authorname).ToList();
         }
 
         public ICollection<Author> GetAllAuthorsByFirstname(string authorfirstname)
         {
-            return context.Authors.Where(author => author.GetAuthorFirstname() == authorfirstname).ToList();
+            return context.Authors.AsQueryable().ToList().Where(author => author.GetAuthorFirstname() == authorfirstname).ToList();
         }
         public Author GetAuthorById(uint id)
         {
