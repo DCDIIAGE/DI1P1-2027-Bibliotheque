@@ -20,7 +20,7 @@
             return Ok(authorRepository.GetAllAuthors());
         }
         [HttpPost("addAuthor")]
-        public IActionResult actionResult(string name, string firstname, string description)
+        public IActionResult addAuthor(string name, string firstname, string description)
         {
             Author author = new Author
             {
@@ -29,6 +29,20 @@
                 description = description,
             };
             authorRepository.AddAuthor(author);
+            return Ok();
+        }
+        [HttpPatch("setAuthor")]
+        public IActionResult setAuthor(string name, string firstname, string description, uint id)
+        {
+            Author author = new Author
+            {
+                name = name,
+                firstname = firstname,
+                description = description,
+                id = id,
+            };
+
+            authorRepository.SetAuthor(author);
             return Ok();
         }
     }
